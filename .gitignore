@@ -19,3 +19,6 @@ Makefile.in
 
 # Build directory
 /build/
+
+# YCM files
+/.ycm_extra_conf.py
