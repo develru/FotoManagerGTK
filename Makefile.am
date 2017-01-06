@@ -5,6 +5,8 @@ bin_PROGRAMS = fotomanager
 fotomanager_CXXFLAGS = $(GTKMM_CFLAGS)
 
 fotomanager_SOURCES = \
-		      src/main.cc
+		      src/main.cpp \
+		      src/gui_manager.h \
+		      src/gui_manager.cpp
 
 fotomanager_LDFLAGS = $(GTKMM_LIBS)
