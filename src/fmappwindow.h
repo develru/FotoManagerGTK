@@ -12,17 +12,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef FMAPPWINDOW_H
+#define FMAPPWINDOW_H
 
-#include <iostream>
-#include <gtkmm/application.h>
-#include <gtkmm/builder.h>
-#include <glibmm/fileutils.h>
-#include <glibmm/markup.h>
-#include <gtkmm/window.h>
-#include "gui_manager.h"
+#include <gtkmm/applicationwindow.h>
 
-int main(int argc, char *argv[])
+class FMAppWindow : public Gtk::ApplicationWindow
 {
+public:
+    FMAppWindow();
 
-    return 0;
-}
+    void open_path_view(const std::string directory);
+};
+
+#endif /* FMAPPWINDOW_H */
