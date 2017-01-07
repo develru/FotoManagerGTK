@@ -5,6 +5,7 @@
 #include <glibmm/refptr.h>
 #include <gtkmm/builder.h>
 #include <gtkmm/button.h>
+#include <gtkmm/label.h>
 
 class GuiManager : public Gtk::Window
 {
@@ -17,6 +18,7 @@ protected:
 
     Glib::RefPtr<Gtk::Builder> m_refGlade;
     Gtk::Button* m_path_button;
+    Gtk::Label* m_path_label;
 
 };
 
