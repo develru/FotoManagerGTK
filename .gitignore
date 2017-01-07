@@ -22,3 +22,6 @@ Makefile.in
 
 # YCM files
 /.ycm_extra_conf.py
+
+# Glade backup files
+*.ui~
