@@ -13,16 +13,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <gtkmm/application.h>
-#include <gtkmm/builder.h>
-#include <glibmm/fileutils.h>
-#include <glibmm/markup.h>
-#include <gtkmm/window.h>
-#include "gui_manager.h"
+#include "fmapplication.h"
 
 int main(int argc, char *argv[])
 {
+    auto application = FMApplication::create();
 
-    return 0;
+    return application->run(argc, argv);
 }
