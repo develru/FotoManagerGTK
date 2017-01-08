@@ -21,7 +21,7 @@
 
 class FMAppWindow;
 
-class FMApplication : Gtk::Application
+class FMApplication : public Gtk::Application
 {
 protected:
     FMApplication();
