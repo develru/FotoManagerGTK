@@ -14,14 +14,25 @@
  */
 
 #include "fmapplication.h"
+#include "fmappwindow.h"
 
 FMApplication::FMApplication()
+    : Gtk::Application("org.develru.fotomanagergtk", Gio::APPLICATION_HANDLES_OPEN)
 {
 }
 
 FMAppWindow* FMApplication::create_appwindow()
 {
-    return 0; // null
+    auto appwindow = new FMAppWindow();
+
+    // needed to ensure that the application runs for as long this window is
+    // still open
+    add_window(*appwindow);
+
+    // Delete the window when it is hidden.
+    appwindow->signal_hide().connect(sigc::bind(sigc::mem_fun(*this, &FMApplication::on_hide_window), appwindow));
+
+    return appwindow; // null
 }
 
 Glib::RefPtr<FMApplication> FMApplication::create()
@@ -31,10 +42,14 @@ Glib::RefPtr<FMApplication> FMApplication::create()
 
 void FMApplication::on_activate()
 {
+    // The application has been started, so let's show a window.
+    auto appwindow = create_appwindow();
+    appwindow->present();
 }
 
 void FMApplication::on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint)
 {
+    // TODO: Implement to load the pictures in view.
 }
 
 void FMApplication::on_hide_window(Gtk::Window* window)
