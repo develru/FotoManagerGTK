@@ -63,7 +63,29 @@ void FMApplication::on_activate()
 
 void FMApplication::on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint)
 {
-    // TODO: Implement to load the pictures in view.
+    FMAppWindow* appwindow = nullptr;
+    auto windows = get_windows();
+    if (windows.size() > 0)
+        appwindow = dynamic_cast<FMAppWindow*>(windows[0]);
+
+    try
+    {
+        if (!appwindow)
+            appwindow = create_appwindow();
+
+        for (const auto& file : files)
+            appwindow->open_path_view(file);
+
+        appwindow->present();
+    }
+    catch (const Glib::Error& ex)
+    {
+        std::cerr << "ExampleApplication::on_open(): " << ex.what() << std::endl;
+    }
+    catch (const std::exception& ex)
+    {
+        std::cerr << "ExampleApplication::on_open(): " << ex.what() << std::endl;
+    }
 }
 
 void FMApplication::on_hide_window(Gtk::Window* window)

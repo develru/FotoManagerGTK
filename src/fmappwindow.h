@@ -27,7 +27,7 @@ public:
 
     static FMAppWindow* create();
 
-    void open_path_view(const std::string directory);
+    void open_path_view(const Glib::RefPtr<Gio::File>& file);
 
 protected:
     Glib::RefPtr<Gtk::Builder> m_refBuilder;

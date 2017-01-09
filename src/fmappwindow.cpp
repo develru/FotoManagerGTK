@@ -14,6 +14,7 @@
  */
 #include "fmappwindow.h"
 #include <stdexcept>
+#include <iostream>
 
 FMAppWindow::FMAppWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
     : Gtk::ApplicationWindow(cobject),
@@ -39,7 +40,17 @@ FMAppWindow* FMAppWindow::create()
     return window;
 }
 
-void FMAppWindow::open_path_view(const std::string directory)
+void FMAppWindow::open_path_view(const Glib::RefPtr<Gio::File>& file)
 {
+    const auto basename = file->get_basename();
+
+    std::cout << basename << std::endl;
+    auto pictures = file->enumerate_children(G_FILE_ATTRIBUTE_STANDARD_NAME);
+    //auto pic = pictures->next_file();
+    Glib::RefPtr<Gio::FileInfo> pic_info;
+    while ((pic_info = pictures->next_file()))
+    {
+        std::cout << pic_info->get_name() << std::endl;
+    }
 }
 
