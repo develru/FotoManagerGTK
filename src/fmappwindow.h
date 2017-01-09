@@ -16,13 +16,22 @@
 #define FMAPPWINDOW_H
 
 #include <gtkmm/applicationwindow.h>
+#include <glibmm/refptr.h>
+#include <gtkmm/builder.h>
+#include <gtkmm/stack.h>
 
 class FMAppWindow : public Gtk::ApplicationWindow
 {
 public:
-    FMAppWindow();
+    FMAppWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
+
+    static FMAppWindow* create();
 
     void open_path_view(const std::string directory);
+
+protected:
+    Glib::RefPtr<Gtk::Builder> m_refBuilder;
+    Gtk::Stack* m_stack;
 };
 
 #endif /* FMAPPWINDOW_H */

@@ -9,6 +9,7 @@ fotomanager_SOURCES = \
 		      src/fmappwindow.h \
 		      src/fmappwindow.cpp \
 		      src/fmapplication.h \
-		      src/fmapplication.cpp
+		      src/fmapplication.cpp \
+		      src/resources.cpp
 
 fotomanager_LDFLAGS = $(GTKMM_LIBS)

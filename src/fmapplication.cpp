@@ -15,15 +15,18 @@
 
 #include "fmapplication.h"
 #include "fmappwindow.h"
+#include <iostream>
+#include <exception>
 
 FMApplication::FMApplication()
     : Gtk::Application("org.develru.fotomanagergtk", Gio::APPLICATION_HANDLES_OPEN)
 {
+
 }
 
 FMAppWindow* FMApplication::create_appwindow()
 {
-    auto appwindow = new FMAppWindow();
+    auto appwindow = FMAppWindow::create();
 
     // needed to ensure that the application runs for as long this window is
     // still open
@@ -32,7 +35,7 @@ FMAppWindow* FMApplication::create_appwindow()
     // Delete the window when it is hidden.
     appwindow->signal_hide().connect(sigc::bind(sigc::mem_fun(*this, &FMApplication::on_hide_window), appwindow));
 
-    return appwindow; // null
+    return appwindow;
 }
 
 Glib::RefPtr<FMApplication> FMApplication::create()
@@ -42,9 +45,20 @@ Glib::RefPtr<FMApplication> FMApplication::create()
 
 void FMApplication::on_activate()
 {
+    try
+    {
     // The application has been started, so let's show a window.
     auto appwindow = create_appwindow();
     appwindow->present();
+    }
+    catch (const Glib::Error& ex)
+    {
+        std::cerr << "FMApplication::on_activate(): " << ex.what() << std::endl;
+    }
+    catch (const std::exception& ex)
+    {
+        std::cerr << "FMApplication::on_activate(): " << ex.what() << std::endl;
+    }
 }
 
 void FMApplication::on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint)
@@ -54,5 +68,6 @@ void FMApplication::on_open(const Gio::Application::type_vec_files& files, const
 
 void FMApplication::on_hide_window(Gtk::Window* window)
 {
+    delete window;
 }
 
