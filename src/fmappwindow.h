@@ -19,6 +19,8 @@
 #include <glibmm/refptr.h>
 #include <gtkmm/builder.h>
 #include <gtkmm/stack.h>
+#include <gtkmm/treemodel.h>
+#include <glibmm/ustring.h>
 
 class FMAppWindow : public Gtk::ApplicationWindow
 {
@@ -30,6 +32,19 @@ public:
     void open_path_view(const Glib::RefPtr<Gio::File>& file);
 
 protected:
+    // ListStore columns
+    class ModelColumns : public Gtk::TreeModel::ColumnRecord
+    {
+    public:
+        ModelColumns()
+        {add(m_path); add(m_name);}
+
+        Gtk::TreeModelColumn<Glib::ustring> m_path;
+        Gtk::TreeModelColumn<Glib::ustring> m_name;
+    };
+
+    ModelColumns m_Columns;
+
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
     Gtk::Stack* m_stack;
 };

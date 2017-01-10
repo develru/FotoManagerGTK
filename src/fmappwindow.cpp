@@ -15,6 +15,9 @@
 #include "fmappwindow.h"
 #include <stdexcept>
 #include <iostream>
+#include <gtkmm/liststore.h>
+#include <gtkmm/scrolledwindow.h>
+#include <gtkmm/treeview.h>
 
 FMAppWindow::FMAppWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
     : Gtk::ApplicationWindow(cobject),
@@ -42,15 +45,36 @@ FMAppWindow* FMAppWindow::create()
 
 void FMAppWindow::open_path_view(const Glib::RefPtr<Gio::File>& file)
 {
-    const auto basename = file->get_basename();
+    const auto basepath = file->get_path();
 
-    std::cout << basename << std::endl;
-    auto pictures = file->enumerate_children(G_FILE_ATTRIBUTE_STANDARD_NAME);
-    //auto pic = pictures->next_file();
+    // TODO
+    //auto list_store = Gtk::ListStore::create();
+
+    auto scrolled = Gtk::manage(new Gtk::ScrolledWindow());
+    scrolled->set_hexpand(true);
+    scrolled->set_vexpand(true);
+    scrolled->show();
+    auto treeView = Gtk::manage(new Gtk::TreeView());
+    auto refTreeModel = Gtk::ListStore::create(m_Columns);
+    treeView->set_model(refTreeModel);
+
+    std::cout << basepath << std::endl;
+    auto pictures = file->enumerate_children();
     Glib::RefPtr<Gio::FileInfo> pic_info;
     while ((pic_info = pictures->next_file()))
     {
-        std::cout << pic_info->get_name() << std::endl;
+        auto row = *(refTreeModel->append());
+        auto name = pic_info->get_name();
+        row[m_Columns.m_path] = basepath + "/" + name;
+        row[m_Columns.m_name] = name;
+
+        std::cout << pic_info->get_edit_name() << std::endl;
     }
+
+    treeView->append_column("Path", m_Columns.m_path);
+    treeView->append_column("Name", m_Columns.m_name);
+    treeView->show();
+    scrolled->add(*treeView);
+    m_stack->add(*scrolled, basepath, basepath);
 }
 
