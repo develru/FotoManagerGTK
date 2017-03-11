@@ -37,8 +37,9 @@ protected:
     {
     public:
         ModelColumns()
-        {add(m_path); add(m_name);}
+        {add(m_path); add(m_name); add(m_thumb);}
 
+        Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf> > m_thumb;
         Gtk::TreeModelColumn<Glib::ustring> m_path;
         Gtk::TreeModelColumn<Glib::ustring> m_name;
     };
@@ -47,6 +48,7 @@ protected:
 
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
     Gtk::Stack* m_stack;
+    void on_quit_clicked();
 };
 
 #endif /* FMAPPWINDOW_H */
